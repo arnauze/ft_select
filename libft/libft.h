@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amagnan <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: Arnaud <Arnaud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 11:39:16 by amagnan           #+#    #+#             */
-/*   Updated: 2018/09/24 17:05:24 by amagnan          ###   ########.fr       */
+/*   Updated: 2018/11/23 10:22:12 by Arnaud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ typedef struct		s_list
 	void			*content;
 	size_t			content_size;
 }					t_list;
-
-int					g_glob;
 
 void				ft_putchar(char c);
 int					ft_atoi(const char *str);
