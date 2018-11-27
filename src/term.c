@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   term.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amagnan <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/26 22:53:30 by amagnan           #+#    #+#             */
+/*   Updated: 2018/11/26 22:53:30 by amagnan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/ft_select.h"
 
 /*
@@ -25,6 +37,7 @@ void			terminal_off(t_term *terminal)
 	tcsetattr(0, TCSADRAIN, &terminal->old_term);
 	tputs(tgetstr("ve", NULL), 0, ft_putint);
 	tputs(tgetstr("te", NULL), 0, ft_putint);
+	// ft_free_memory();
 }
 
 /*
@@ -46,25 +59,26 @@ void		get_terminal(void)
 	terminal_on(g_terminal);
 }
 
-// void		ft_free_memory()
-// {
-// 	t_select	*next;
+void		ft_free_memory()
+{
+	t_select	*tmp;
 
-// 	if (g_terminal->list)
-// 	{
-// 		while (g_terminal->list)
-// 		{
-// 			next = g_terminal->list->next;
-// 			if (g_terminal->list->output)
-// 				ft_strdel(&g_terminal->list->output);
-// 			free(g_terminal->list);
-// 			g_terminal->list = next;
-// 		}
-// 	}
-// 	if (g_terminal)
-// 		free(g_terminal);
-// 	g_terminal = NULL;
-// }
+	if (g_terminal->list)
+	{
+		while (g_terminal->list)
+		{
+			tmp = g_terminal->list;
+			g_terminal->list = g_terminal->list->next;
+			if (tmp->output)
+				ft_strdel(&tmp->output);
+			free(tmp);
+			tmp = NULL;
+		}
+	}
+	if (g_terminal)
+		free(g_terminal);
+	g_terminal = NULL;
+}
 
 /*
 **		Quits the terminal properly
@@ -74,6 +88,5 @@ void		ft_quit(int signal)
 {
 	(void)signal;
 	terminal_off(g_terminal);
-	// ft_free_memory();
 	exit(0);
 }

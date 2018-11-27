@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amagnan <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/26 22:53:09 by amagnan           #+#    #+#             */
+/*   Updated: 2018/11/26 22:53:10 by amagnan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/ft_select.h"
 
 t_term		*g_terminal;
@@ -39,7 +51,8 @@ static void		initialize_signals(void)
 
 int			main(int argc, char **argv)
 {
-	(void)argc;
+	if (argc == 1)
+		return(ft_error("USAGE"));
 	g_terminal = (t_term *)malloc(sizeof(t_term));
 	get_terminal();
 	get_list(argv);

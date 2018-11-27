@@ -6,7 +6,8 @@ SRC = libft/*.c\
 		src/main.c\
 		src/move_cursor.c\
 		src/output.c\
-		src/term.c
+		src/term.c\
+		src/error.c
 
 FLAGS = -Wall -Wextra -Werror -lncurses
 NAME = ft_select

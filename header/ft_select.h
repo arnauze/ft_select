@@ -43,6 +43,12 @@ t_term			*g_terminal;
 int				ft_putint(int c);
 
 /*
+**		error.c
+*/
+
+int				ft_error(char *str);
+
+/*
 **		move_cursor.c
 */
 
@@ -80,6 +86,7 @@ void			terminal_on(t_term *terminal);
 void			terminal_off(t_term *terminal);
 void			get_terminal(void);
 void			ft_quit(int signal);
+void			ft_free_memory();
 
 /*
 **		elem.c
