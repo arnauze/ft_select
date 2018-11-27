@@ -24,6 +24,17 @@ int			ft_putint(int c)
 	return (0);
 }
 
+static int		get_size(void)
+{
+	ioctl(STDERR_FILENO, TIOCGWINSZ, &g_terminal->win_size);
+	g_terminal->max_col = get_col_size();
+	g_terminal->max_row = g_terminal->win_size.ws_row;
+	if ((g_terminal->argc / g_terminal->max_col) > g_terminal->max_row)
+		return (-1);
+	g_terminal->max_row = (g_terminal->argc / g_terminal->max_col);
+	return (0);
+}
+
 static void		signal_handler(int sig)
 {
 	if (sig == SIGTSTP)
@@ -31,7 +42,13 @@ static void		signal_handler(int sig)
 	else if (sig == SIGINT || sig == SIGABRT || sig == SIGSTOP || sig == SIGKILL || sig == SIGQUIT)
 		ft_quit(0);
 	if (sig == SIGWINCH)
-		print_list(g_terminal);
+	{
+		tputs(tgetstr("cl", NULL), 0, ft_putint);
+		if (get_size() == -1)
+			ft_error("SPACE");
+		else
+			print_list(g_terminal);
+	}
 
 }
 
@@ -60,9 +77,13 @@ int			main(int argc, char **argv)
 	while (1)
 	{
 		tputs(tgetstr("cl", NULL), 0, ft_putint);
-		g_terminal->max_col = get_col_size(g_terminal);
-		print_list(g_terminal);
-		receive_key(&g_terminal);
+		if (get_size() == -1)
+			ft_error("SPACE");
+		else
+		{
+			print_list(g_terminal);
+			receive_key(&g_terminal);
+		}
 	}
 	terminal_off(g_terminal);
 	return (0);

@@ -52,12 +52,17 @@ static void		move_up(t_term **terminal)
 		i++;
 		current = current->next;
 	}
-	if ((i / get_col_size(*terminal)) >= 1)
+	if ((i / g_terminal->max_col) >= 1)
 	{
 		current->cursor = 0;
-		while (current && ++j < get_col_size(*terminal))
+		while (current && ++j < g_terminal->max_col)
 			current = current->prev;
 		current->cursor = 1;
+	}
+	else
+	{
+		current->cursor = 0;
+		(*terminal)->list->cursor = 1;
 	}
 }
 
@@ -75,12 +80,17 @@ static void		move_down(t_term **terminal)
 		i++;
 		current = current->next;
 	}
-	if ((i / get_col_size(*terminal)) >= 1) // Need to change this condition to see if it's in the last row instead
+	if ((((i / g_terminal->max_col) != g_terminal->max_row) && ((i / g_terminal->max_col) != g_terminal->max_row - 1)))
 	{
 		current->cursor = 0;
-		while (current && ++j < get_col_size(*terminal))
+		while (current && ++j < g_terminal->max_col)
 			current = current->next;
 		current->cursor = 1;
+	}
+	else
+	{
+		current->cursor = 0;
+		(*terminal)->list->prev->cursor = 1;
 	}
 }
 

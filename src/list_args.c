@@ -48,8 +48,11 @@ int 		size_list(t_select *head)
 
 	count = 0;
 	current = head;
-	while (current && current->next != head && count++)
+	while (current && current->next != head)
+	{
 		current = current->next;
+		count++;
+	}
 	return (count);
 }
 
@@ -71,17 +74,17 @@ int 		longest_word(t_select *head)
 	return (max);
 }
 
-int 		get_col_size(t_term *terminal)
+int 		get_col_size(void)
 {
 	int 	col;
 
-	if (!(terminal->list->output))
+	g_terminal->argc = size_list(g_terminal->list);
+	if (!(g_terminal->list->output))
 		ft_quit(0);
-	ioctl(STDERR_FILENO, TIOCGWINSZ, &terminal->win_size);
-	col = terminal->win_size.ws_col / (longest_word(terminal->list) + 1);
+	col = g_terminal->win_size.ws_col / (longest_word(g_terminal->list) + 1);
 	if (!col)
 		col = 1;
-	if (col < size_list(terminal->list))
-		col = size_list(terminal->list);
+	if (col > g_terminal->argc)
+		col = g_terminal->argc;
 	return (col);
 }

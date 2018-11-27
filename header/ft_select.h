@@ -24,6 +24,8 @@ typedef	struct			s_term
 	struct winsize		win_size;
 	t_select			*list;
 	int					max_col;
+	int					max_row;
+	int					argc;
 	int					nb_chr;
 }						t_term;
 
@@ -69,7 +71,7 @@ void			receive_key(t_term **terminal);
 void			get_list(char **argv);
 int 			size_list(t_select *head);
 int 			longest_word(t_select *head);
-int 			get_col_size(t_term *terminal);
+int 			get_col_size(void);
 
 /*
 **		output.c

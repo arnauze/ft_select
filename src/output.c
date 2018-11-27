@@ -19,7 +19,7 @@ static void		output_current(t_select *current, t_term *terminal)
 	i = 0;
 	while (current->output[i])
 	{
-		ft_putchar(current->output[i]);
+		ft_putchar_fd(current->output[i], 2);
 		i++;
 	}
 	if (current->selected)
@@ -28,7 +28,7 @@ static void		output_current(t_select *current, t_term *terminal)
 		tputs(tgetstr("ue", NULL), 0, ft_putint);
 	while (i < longest_word(terminal->list))
 	{
-		ft_putchar(' ');
+		ft_putchar_fd(' ', 2);
 		i++;
 	}
 }
@@ -48,20 +48,20 @@ void			print_list(t_term *terminal)
 	while (current)
 	{
 		i = 0;
-		while (current && i < terminal->max_col)
+		while (current && i < g_terminal->max_col)
 		{
 			if (current->selected)
 				tputs(tgetstr("mr", NULL), 0, ft_putint);
 			if (current->cursor)
 				tputs(tgetstr("us", NULL), 0, ft_putint);
-			output_current(current, terminal);
+			output_current(current, g_terminal);
 			current = current->next;
 			if (current == first)
 				break ;
-			ft_putchar(' ');
+			ft_putchar_fd(' ', 2);
 			i++;
 		}
-		ft_putchar('\n');
+		ft_putchar_fd('\n', 2);
 		if (current == first)
 				break ;
 	}
