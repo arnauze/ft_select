@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amagnan <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: Arnaud <Arnaud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 22:53:23 by amagnan           #+#    #+#             */
-/*   Updated: 2018/11/26 22:53:24 by amagnan          ###   ########.fr       */
+/*   Updated: 2018/11/29 14:27:12 by Arnaud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,9 @@ void			print_list(t_term *terminal)
 	t_select	*current;
 	t_select	*first;
 	int 		i;
-	int	j = 1;
-	t_select *bite;
 
 	first = terminal->list;
 	current = terminal->list;
-	//
-	bite = first;
-	while (bite && bite->cursor != 1)
-	{
-		bite = bite->next;
-		j++;
-	}
-	ft_putnbr(j % g_terminal->max_col); //pb when last col becquse return 0
-	ft_putchar_fd('\n', 2);
-	// 
-	ft_putnbr(g_terminal->argc % g_terminal->max_col);
-	ft_putchar_fd('\n', 2);
 	while (current)
 	{
 		i = 0;
@@ -85,20 +71,26 @@ void			output_and_quit(t_term **terminal)
 {
 	t_select	*current;
 	t_select	*first;
+	int			enter;
 
+	enter = 0;
 	current = (*terminal)->list;
 	first = (*terminal)->list;
 	terminal_off(*terminal);
 	while (current)
 	{
 		if (current->selected)
+		{
+			enter = 1;
 			ft_putstr(current->output);
+		}
 		if (current->next == first)
 			break ;
 		if (current->selected)
 			ft_putchar(' ');
 		current = current->next;
 	}
-	ft_putchar('\n');
+	if (enter)
+		ft_putchar('\n');
 	exit(0);
 }

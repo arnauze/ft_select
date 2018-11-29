@@ -4,7 +4,8 @@ SRC = libft/*.c\
 		src/key.c\
 		src/list_args.c\
 		src/main.c\
-		src/move_cursor.c\
+		src/move/ft_move.c\
+		src/move/help_move.c\
 		src/output.c\
 		src/term.c\
 		src/error.c

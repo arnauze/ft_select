@@ -51,11 +51,19 @@ int				ft_putint(int c);
 int				ft_error(char *str);
 
 /*
-**		move_cursor.c
+**		move/ft_move.c
 */
 
 void			ft_move(long buf, t_term **terminal);
 int 			is_move(long buf);
+
+/*
+**		move/help_move.c
+*/
+
+void			help_move_down(int x, int i, int j, t_select *current);
+void			help_move_up(int x, int i, int j, t_select *current);
+t_select		*find_cursor(int *i);
 
 /*
 **		key.c

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amagnan <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: Arnaud <Arnaud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 22:53:09 by amagnan           #+#    #+#             */
-/*   Updated: 2018/11/26 22:53:10 by amagnan          ###   ########.fr       */
+/*   Updated: 2018/11/28 20:24:42 by Arnaud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/ft_select.h"
 
-t_term		*g_terminal;
+// t_term		*g_terminal;
 
 /*
 **		Acts like a ft_putchar but needed for the tputs function
@@ -37,11 +37,10 @@ static int		get_size(void)
 
 static void		signal_handler(int sig)
 {
-	if (sig == SIGTSTP)
+	if (sig == SIGINT || sig == SIGABRT || sig == SIGKILL
+		|| sig == SIGQUIT || sig == SIGTSTP)
 		ft_quit(0);
-	else if (sig == SIGINT || sig == SIGABRT || sig == SIGSTOP || sig == SIGKILL || sig == SIGQUIT)
-		ft_quit(0);
-	if (sig == SIGWINCH)
+	else if (sig == SIGWINCH)
 	{
 		tputs(tgetstr("cl", NULL), 0, ft_putint);
 		if (get_size() == -1)
