@@ -44,25 +44,31 @@ static void		move_up(t_term **terminal)
 	int 		i;
 	int 		j;
 
-	j = -1;
-	i = 0;
+	j = 0;
+	i = 1;
 	current = (*terminal)->list;
 	while (current && current->cursor == 0)
 	{
 		i++;
 		current = current->next;
 	}
-	if ((i / g_terminal->max_col) >= 1)
+	if ((i / g_terminal->max_col) == 0)
 	{
 		current->cursor = 0;
-		while (current && ++j < g_terminal->max_col)
-			current = current->prev;
+		if (i % g_terminal->max_col >= g_terminal->argc % g_terminal->max_col)
+			while (current && ++j <= g_terminal->max_col + (g_terminal->argc % g_terminal->max_col))
+				current = current->prev;
+		else
+			while (current && ++j <= g_terminal->max_col - (g_terminal->argc % g_terminal->max_col))
+				current = current->prev;
 		current->cursor = 1;
 	}
 	else
 	{
 		current->cursor = 0;
-		(*terminal)->list->cursor = 1;
+		while (current && ++j <= g_terminal->max_col)
+			current = current->prev;
+		current->cursor = 1;
 	}
 }
 
@@ -73,24 +79,37 @@ static void		move_down(t_term **terminal)
 	int 		j;
 
 	j = -1;
-	i = 0;
+	i = 1;
 	current = (*terminal)->list;
 	while (current && current->cursor == 0)
 	{
 		i++;
 		current = current->next;
 	}
-	if ((((i / g_terminal->max_col) != g_terminal->max_row) && ((i / g_terminal->max_col) != g_terminal->max_row - 1)))
+	if ((((i / g_terminal->max_col) != g_terminal->max_row)) && (((i / g_terminal->max_col) != g_terminal->max_row - 1)))
 	{
 		current->cursor = 0;
 		while (current && ++j < g_terminal->max_col)
 			current = current->next;
 		current->cursor = 1;
 	}
+	else if (((i / g_terminal->max_col) == g_terminal->max_row - 1))
+	{
+		current->cursor = 0;
+		if (i % g_terminal->max_col >= g_terminal->argc % g_terminal->max_col)
+			while (current && ++j < g_terminal->max_col + (g_terminal->argc % g_terminal->max_col))
+				current = current->next;
+		else
+			while (current && ++j < g_terminal->max_col)
+			current = current->next;
+		current->cursor = 1;
+	}
 	else
 	{
 		current->cursor = 0;
-		(*terminal)->list->prev->cursor = 1;
+		while (current && ++j <= g_terminal->max_col - (g_terminal->argc % g_terminal->max_col))
+			current = current->next;
+		current->cursor = 1;
 	}
 }
 

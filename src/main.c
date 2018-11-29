@@ -20,7 +20,7 @@ t_term		*g_terminal;
 
 int			ft_putint(int c)
 {
-	ft_putchar_fd((char)c, STDERR_FILENO);
+	ft_putchar((char)c);
 	return (0);
 }
 
@@ -29,7 +29,7 @@ static int		get_size(void)
 	ioctl(STDERR_FILENO, TIOCGWINSZ, &g_terminal->win_size);
 	g_terminal->max_col = get_col_size();
 	g_terminal->max_row = g_terminal->win_size.ws_row;
-	if ((g_terminal->argc / g_terminal->max_col) > g_terminal->max_row)
+	if ((g_terminal->argc / g_terminal->max_col) >= g_terminal->max_row)
 		return (-1);
 	g_terminal->max_row = (g_terminal->argc / g_terminal->max_col);
 	return (0);
@@ -63,7 +63,7 @@ static void		initialize_signals(void)
 }
 
 /*
-**		I need to add the max_col so the columns refresh automatically
+**		Cursor movement is weird
 */
 
 int			main(int argc, char **argv)
@@ -77,9 +77,7 @@ int			main(int argc, char **argv)
 	while (1)
 	{
 		tputs(tgetstr("cl", NULL), 0, ft_putint);
-		if (get_size() == -1)
-			ft_error("SPACE");
-		else
+		if (get_size() == 0)
 		{
 			print_list(g_terminal);
 			receive_key(&g_terminal);

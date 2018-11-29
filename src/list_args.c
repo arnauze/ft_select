@@ -78,7 +78,7 @@ int 		get_col_size(void)
 {
 	int 	col;
 
-	g_terminal->argc = size_list(g_terminal->list);
+	g_terminal->argc = size_list(g_terminal->list) + 1;
 	if (!(g_terminal->list->output))
 		ft_quit(0);
 	col = g_terminal->win_size.ws_col / (longest_word(g_terminal->list) + 1);
